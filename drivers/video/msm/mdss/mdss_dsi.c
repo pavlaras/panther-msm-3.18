@@ -2191,7 +2191,7 @@ static int __mdss_dsi_dfps_update_clks(struct mdss_panel_data *pdata,
 #if IS_ENABLED(CONFIG_LGE_DISPLAY_COMMON)
 	struct mdss_panel_info *pinfo, *spinfo = NULL;
 #else
-	struct mdss_panel_info *pinfo, *spinfo;
+	struct mdss_panel_info *pinfo, *spinfo = NULL;
 #endif
 	int rc = 0;
 

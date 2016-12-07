@@ -698,7 +698,7 @@ static struct mdss_rot_hw_resource *mdss_rotator_hw_alloc(
 #if IS_ENABLED(CONFIG_LGE_DISPLAY_COMMON)
 	int ret = 0;
 #else
-	int ret;
+	int ret = 0;
 #endif
 
 	hw = devm_kzalloc(&mgr->pdev->dev, sizeof(struct mdss_rot_hw_resource),
@@ -760,8 +760,10 @@ static struct mdss_rot_hw_resource *mdss_rotator_hw_alloc(
 	if (ret)
 		goto error;
 
-	if (pipe_id >= mdata->ndma_pipes)
+	if (pipe_id >= mdata->ndma_pipes) {
+		ret = -EINVAL;
 		goto error;
+	}
 
 	pipe_ndx = mdata->dma_pipes[pipe_id].ndx;
 	hw->pipe = mdss_mdp_pipe_assign(mdata, hw->mixer,

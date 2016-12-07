@@ -4284,9 +4284,7 @@ static int estimate_battery_age(struct fg_chip *chip, int *actual_capacity)
 	}
 
 	battery_soc = get_battery_soc_raw(chip) * 100 / FULL_PERCENT_3B;
-	if (rc) {
-		goto error_done;
-	} else if (battery_soc < 25 || battery_soc > 75) {
+	if (battery_soc < 25 || battery_soc > 75) {
 		if (fg_debug_mask & FG_AGING)
 			pr_info("Battery SoC (%d) out of range, aborting\n",
 				(int)battery_soc);
@@ -10347,7 +10345,7 @@ static int fg_memif_init(struct fg_chip *chip)
 {
 	int rc;
 #ifndef CONFIG_LGE_PM
-	u8 dig_major;
+	u8 dig_major = 0;
 #endif
 #ifdef CONFIG_MACH_MSM8996_LUCYE
 	static u8 count = 0;

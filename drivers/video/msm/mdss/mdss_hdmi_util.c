@@ -745,7 +745,7 @@ static int hdmi_ddc_read_retry(struct hdmi_tx_ddc_ctrl *ddc_ctrl)
 #if IS_ENABLED(CONFIG_LGE_DISPLAY_COMMON)
 	int busy_wait_us = 0;
 #else
-	int busy_wait_us;
+	int busy_wait_us = 0;
 #endif
 
 	if (!ddc_ctrl || !ddc_ctrl->io) {
@@ -1227,7 +1227,7 @@ int hdmi_ddc_write(struct hdmi_tx_ddc_ctrl *ddc_ctrl)
 #if IS_ENABLED(CONFIG_LGE_DISPLAY_COMMON)
 	int busy_wait_us = 0;
 #else
-	int busy_wait_us;
+	int busy_wait_us = 0;
 #endif
 
 	if (!ddc_ctrl || !ddc_ctrl->io) {

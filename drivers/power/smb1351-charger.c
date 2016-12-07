@@ -2785,7 +2785,7 @@ static void smb1351_chg_adc_notification(enum qpnp_tm_state state, void *ctx)
 #ifdef CONFIG_LGE_PM
 	struct battery_status *cur = NULL;
 #else
-	struct battery_status *cur;
+	struct battery_status *cur = NULL;
 #endif
 	int temp;
 

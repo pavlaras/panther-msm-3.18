@@ -794,20 +794,9 @@ retry:
 		data_len = io_data->read ?
 			   usb_ep_align_maybe(gadget, ep->ep, io_data->len) :
 			   io_data->len;
-#ifndef CONFIG_LGE_USB_G_ANDROID
-		extra_buf_alloc = gadget->extra_buf_alloc;
-		spin_unlock_irq(&epfile->ffs->eps_lock);
-#else
-		if (gadget) {
-		extra_buf_alloc = gadget->extra_buf_alloc;
-		} else {
-		spin_unlock_irq(&epfile->ffs->eps_lock);
-			ret = -ENODEV;
-			goto error;
-		}
 
+		extra_buf_alloc = gadget->extra_buf_alloc;
 		spin_unlock_irq(&epfile->ffs->eps_lock);
-#endif
 
 		if (!io_data->read)
 			data = kmalloc(data_len + extra_buf_alloc,
@@ -1628,11 +1617,7 @@ static void ffs_data_clear(struct ffs_data *ffs)
 	if (ffs->gadget)
 		pr_err("%s: ffs:%pK ffs->gadget= %pK, ffs->flags= %lu\n",
 				__func__, ffs, ffs->gadget, ffs->flags);
-#ifdef CONFIG_LGE_USB_G_ANDROID
-	WARN_ON(ffs->gadget);
-#else
 	BUG_ON(ffs->gadget);
-#endif
 
 	if (ffs->epfiles)
 		ffs_epfiles_destroy(ffs->epfiles, ffs->eps_count);
@@ -1818,14 +1803,11 @@ static int ffs_func_eps_enable(struct ffs_function *func)
 	spin_lock_irqsave(&func->ffs->eps_lock, flags);
 	do {
 		struct usb_endpoint_descriptor *ds;
-		struct usb_ss_ep_comp_descriptor *comp_desc = NULL;
-		int needs_comp_desc = false;
 		int desc_idx;
 
-		if (ffs->gadget->speed == USB_SPEED_SUPER) {
+		if (ffs->gadget->speed == USB_SPEED_SUPER)
 			desc_idx = 2;
-			needs_comp_desc = true;
-		} else if (ffs->gadget->speed == USB_SPEED_HIGH)
+		else if (ffs->gadget->speed == USB_SPEED_HIGH)
 			desc_idx = 1;
 		else
 			desc_idx = 0;
@@ -1849,13 +1831,6 @@ static int ffs_func_eps_enable(struct ffs_function *func)
 						__func__, ret, ep->ep->name);
 			break;
 		}
-
-		comp_desc = (struct usb_ss_ep_comp_descriptor *)(ds +
-				USB_DT_ENDPOINT_SIZE);
-		ep->ep->maxburst = comp_desc->bMaxBurst + 1;
-
-		if (needs_comp_desc)
-			ep->ep->comp_desc = comp_desc;
 
 		ret = usb_ep_enable(ep->ep);
 		if (likely(!ret)) {

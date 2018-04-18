@@ -395,7 +395,7 @@ static void msm_restart_prepare(const char *cmd)
 #ifdef CONFIG_LGE_DEFAULT_HARD_RESET
 			if (!strncmp(cmd, "oem-90466252",12)) {
 				qpnp_pon_set_restart_reason(
-					PON_RESTART_REASON_LAF_RESTART_MODE);
+		w			PON_RESTART_REASON_LAF_RESTART_MODE);
 			} else if (!strncmp(cmd, "oem-02179092",12)) {
 				qpnp_pon_set_restart_reason(
 					PON_RESTART_REASON_LAF_ONRS);
@@ -409,6 +409,8 @@ static void msm_restart_prepare(const char *cmd)
 			qpnp_pon_system_pwr_off(PON_POWER_OFF_HARD_RESET);
 			qpnp_pon_set_restart_reason(
 				PON_RESTART_REASON_NORMAL);
+
+
 		} else {
 			qpnp_pon_set_restart_reason(
 				PON_RESTART_REASON_NORMAL);

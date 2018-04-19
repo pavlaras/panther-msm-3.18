@@ -75,7 +75,7 @@ config KMEMCHECK_SHADOW_COPY_SHIFT
 config KMEMCHECK_PARTIAL_OK
 	bool "kmemcheck: allow partially uninitialized memory"
 	depends on KMEMCHECK
-	default y
+	default n
 	help
 	  This option works around certain GCC optimizations that produce
 	  32-bit reads from 16-bit variables where the upper 16 bits are

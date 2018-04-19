@@ -8,6 +8,7 @@ config FRAME_POINTER
 
 config ARM64_PTDUMP
 	bool "Export kernel pagetable layout to userspace via debugfs"
+	default n
 	depends on DEBUG_KERNEL
 	select DEBUG_FS
         help
@@ -20,6 +21,7 @@ config ARM64_PTDUMP
 
 config STRICT_DEVMEM
 	bool "Filter access to /dev/mem"
+	default n
 	depends on MMU
 	help
 	  If this option is disabled, you allow userspace (root) access to all
@@ -34,6 +36,7 @@ config STRICT_DEVMEM
 
 config ARM64_PTDUMP
 	bool "Export kernel pagetable layout to userspace via debugfs"
+	default n
 	depends on DEBUG_KERNEL
 	select DEBUG_FS
         help
@@ -46,6 +49,7 @@ config ARM64_PTDUMP
 
 config PID_IN_CONTEXTIDR
 	bool "Write the current PID to the CONTEXTIDR register"
+	default n
 	help
 	  Enabling this option causes the kernel to write the current PID to
 	  the CONTEXTIDR register, at the expense of some additional
@@ -80,6 +84,7 @@ config DEBUG_SET_MODULE_RONX
 
 config FORCE_PAGES
         bool "Force lowmem to be mapped with 4K pages"
+	default n
         help
           There are some advanced debug features that can only be done when
           memory is mapped with pages instead of sections. Enable this option
